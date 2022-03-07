@@ -28,8 +28,8 @@ const checkMatch = (() => {
         contador += 1;
         cards[cardChoose[0].id].removeEventListener('click', flipCard);
         cards[cardChoose[1].id].removeEventListener('click', flipCard);
-        score = parseInt(score + (100 / 6));
-        scoreSpam.textContent = score.toString();
+        score = score + (100 / 6);
+        scoreSpam.textContent = parseInt(score).toString();
         if (contador === 6) {
             contador = 0;
             score = 0;
@@ -37,6 +37,7 @@ const checkMatch = (() => {
                 alert("winnnnnnnn!!");
                 main();
                 createBoard();
+                scoreSpam.textContent = '0';
             }, 700);
         }
     } else {
@@ -44,20 +45,15 @@ const checkMatch = (() => {
         cards[cardChoose[1].id].setAttribute('src', 'img/rainbow.png')
     }
     cardChoose = [];
-    console.log("check mami", cardChoose);
 });
 
 const flipCard = ((card) => {
     card.addEventListener('click', () => {
-        // verificamos si la card ya fue solicitada
-        if (card.getAttribute('active') !== false) {
-            let dataId = card.getAttribute('data-id');
-            console.log();
-            cardChoose.push({ name: cardArray[dataId].name, id: dataId } );
-            card.setAttribute('src', cardArray[dataId].img);
-            if (cardChoose.length == 2) {
-                setTimeout(checkMatch, 300);
-            }
+        let dataId = card.getAttribute('data-id');
+        cardChoose.push({ name: cardArray[dataId].name, id: dataId } );
+        card.setAttribute('src', cardArray[dataId].img);
+        if (cardChoose.length == 2) {
+            setTimeout(checkMatch, 300);
         }
     });
 });
@@ -71,13 +67,11 @@ const createBoard = (()=> {
         card.setAttribute('alt', 'rainbow');
         card.setAttribute('class', 'memoryImg');
         card.setAttribute('data-id', index);
-        card.setAttribute('active', true);
         flipCard(card);
         content.appendChild(card);
     }
     gridComponent.appendChild(content);
 });
-
     
 createBoard();
 
