@@ -1,3 +1,5 @@
+import { cadena } from './modules/playtwo.js';
+
 const gridComponent = document.querySelector('#grid');
 const scoreSpam = document.querySelector('#result');
 let cardChoose = [];
@@ -74,4 +76,3 @@ const createBoard = (()=> {
 });
     
 createBoard();
-

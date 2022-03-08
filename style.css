@@ -1,14 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+:root{
+    --verde: #7BE0AD;
+    --verde-cielo: #AEE5D8;
+    --gris: #E7E5E5;
+    --lila-cielo: #E5D0E3;
+    --lila: #E0B0D5;
+    }
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 img {
     cursor: pointer;
 }
 #grid {
-    background-color: pink;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,5 +26,24 @@ img {
 .content {
     display: flex;
     flex-wrap: wrap;
-    width: 400px;
+    width: 420px;
+    border-radius: 3px;
+    border: 10px solid var(--gris);
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
+}
+
+.memoryGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: rgb(235,116,207);
+background: linear-gradient(0deg, rgba(235,116,207,1) 0%, rgba(218,35,176,1) 100%);
+    height: 100vh;
 }
