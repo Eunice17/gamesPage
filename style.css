@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 :root{
-    --verde: #7BE0AD;
+    --verde: #13e47b;
     --verde-cielo: #AEE5D8;
     --gris: #E7E5E5;
     --lila-cielo: #E5D0E3;
@@ -14,15 +14,41 @@
     font-family: 'Ubuntu', sans-serif;
 }
 .nav-games {
-    background-color: var(--gris);
-    padding: absolute;
-    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    width: max-content;
+    display: block;
+    padding: 0.7rem 2.5rem;
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    column-gap: 0.8rem;
+    justify-content: baseline;
+    z-index: 2;
+    border-radius: 3rem;
+    backdrop-filter: blur(10px);
+}
+.nav-games a {
+    background: transparent;
+    padding: 0.8rem;
+    font-size: 1.4rem;
+    color: var(--gris);
+    border-radius: 40%;
+}
+.nav-games a:hover {
+    color: var(--verde);
+    background: rgba(0, 0, 0, 0.2);
+}
+.nav-games a.active {
+    color: var(--verde);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 img {
     cursor: pointer;
 }
-#grid {
+#grid-memory {
     display: flex;
     justify-content: center;
     align-items: center;

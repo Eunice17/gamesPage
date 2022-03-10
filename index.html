@@ -11,17 +11,26 @@
 </head>
 <body>
     <nav class="nav-games">
-        <a href=" #memory"><i class="fa-solid fa-clover"></i></a>
+        <a href=" #memory" class="active"><i class="fa-solid fa-clover"></i></a>
         <a href=" #mole"><i class="fa-solid fa-piggy-bank"></i></a>
-        <a href=" #breakout"><i class="fa-solid fa-pallet"></i></a>
+        <a href=" #breakout"><i class="fa-solid fa-toilet-paper"></i></a>
         <a href=" #spaceInvader"><i class="fa-brands fa-octopus-deploy"></i></a>
     </nav>
     <section class="memoryGame" id="memory">
         <h1>MEMORY GAME</h1>
         <h3>Score: <span id="result">0</span></h3>
-        <div id="grid"></div>
+        <div id="grid-memory"></div>
     </section>
-    <section class="memoryGame" id="mole"></section>
+    <section class="memoryGame" id="mole">
+        <h1>WHAC A MOLE</h1>
+    </section>
+    <section class="memoryGame" id="breakout">
+        <h1>BREAKOUT GAME</h1>
+    </section>
+    <section class="memoryGame" id="spaceInvader">
+        <h1>SPACE INVADER GAME</h1>
+    </section>
+
     <script src="./main.js" type="module"></script>
 </body>
 </html>

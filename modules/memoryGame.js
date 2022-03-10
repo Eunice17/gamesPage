@@ -21,6 +21,7 @@ export const cardArray = [
         { name: 'homero', img: 'img/homero.png' },
     ];
 
+    /* función que  */
     const checkMatch = (() => {
         const cards = document.querySelectorAll('.memoryImg');
         if (cardChoose[0].name === cardChoose[1].name) {

@@ -1,6 +1,6 @@
 import * as memory from './modules/memoryGame.js';
 
-const gridComponent = document.querySelector('#grid');
+const gridComponent = document.querySelector('#grid-memory');
 
 // Creamos tablero para el juego de memoria
 const createBoard = (()=> {
@@ -24,4 +24,5 @@ export const main = (() => {
     createBoard();
 });
 
+/* Incio del memory game */
 main();
