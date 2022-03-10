@@ -1,3 +1,4 @@
+import { main } from './../main.js';
 /* Memory game
     whac-a-mole
     breakout
@@ -32,9 +33,8 @@ export const cardArray = [
                 contador = 0;
                 score = 0;
                 setTimeout(() => {
-                    alert("winnnnnnnn!!");
+                    alert("awesome!!");
                     main();
-                    createBoard();
                     scoreSpam.textContent = '0';
                 }, 700);
             }

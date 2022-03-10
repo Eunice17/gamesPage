@@ -19,7 +19,7 @@ const createBoard = (()=> {
     gridComponent.appendChild(content);
 });
 
-const main = (() => {
+export const main = (() => {
     memory.cardArray.sort(() => 0.5 - Math.random());
     createBoard();
 });

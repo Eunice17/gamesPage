@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/705f835250.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
     <title>GAMES</title>
 </head>
 <body>
-    <section class="memoryGame">
+    <nav class="nav-games">
+        <a href=" #memory"><i class="fa-solid fa-clover"></i></a>
+        <a href=" #mole"><i class="fa-solid fa-piggy-bank"></i></a>
+        <a href=" #breakout"><i class="fa-solid fa-pallet"></i></a>
+        <a href=" #spaceInvader"><i class="fa-brands fa-octopus-deploy"></i></a>
+    </nav>
+    <section class="memoryGame" id="memory">
         <h1>MEMORY GAME</h1>
         <h3>Score: <span id="result">0</span></h3>
         <div id="grid"></div>
     </section>
-    <section class="memoryGame"></section>
+    <section class="memoryGame" id="mole"></section>
     <script src="./main.js" type="module"></script>
 </body>
 </html>
