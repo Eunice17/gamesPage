@@ -2,6 +2,11 @@ import * as memory from './modules/memoryGame.js';
 
 const gridComponent = document.querySelector('#grid-memory');
 
+/* Declaración del juego mole :V */
+const scoreMole = document.querySelector('#score-mole');
+const timeMole = document.querySelector('#time-mole');
+const square = document.querySelectorAll('.square');
+
 // Creamos tablero para el juego de memoria
 const createBoard = (()=> {
     gridComponent.innerHTML = '';
@@ -22,6 +27,8 @@ const createBoard = (()=> {
 export const main = (() => {
     memory.cardArray.sort(() => 0.5 - Math.random());
     createBoard();
+    const squeareRandom = square[Math.floor(Math.random() * 9)];
+    console.log(squeareRandom);
 });
 
 /* Incio del memory game */

@@ -11,23 +11,37 @@
 </head>
 <body>
     <nav class="nav-games">
-        <a href=" #memory" class="active"><i class="fa-solid fa-clover"></i></a>
+        <a href=" #memory" class=""><i class="fa-solid fa-clover"></i></a>
         <a href=" #mole"><i class="fa-solid fa-piggy-bank"></i></a>
         <a href=" #breakout"><i class="fa-solid fa-toilet-paper"></i></a>
         <a href=" #spaceInvader"><i class="fa-brands fa-octopus-deploy"></i></a>
     </nav>
-    <section class="memoryGame" id="memory">
+    <section class="game" id="memory">
         <h1>MEMORY GAME</h1>
-        <h3>Score: <span id="result">0</span></h3>
+        <h3>Your score: <span id="result">0</span></h3>
         <div id="grid-memory"></div>
     </section>
-    <section class="memoryGame" id="mole">
+    <section class="game" id="mole">
         <h1>WHAC A MOLE</h1>
+        <h3>Your score: <span id="score-mole">0</span></h3>
+        <h3>Time Left: <span id="time-mole">60</span></h3>
+        <div class="grid-mole">
+            <div class="square" id="1"></div>
+            <div class="square" id="2"></div>
+            <div class="square" id="3"></div>
+            <div class="square moleActive" id="4"></div>
+            <div class="square" id="5"></div>
+            <div class="square" id="6"></div>
+            <div class="square" id="7"></div>
+            <div class="square" id="8"></div>
+            <div class="square" id="9"></div>
+        </div>
     </section>
-    <section class="memoryGame" id="breakout">
+    <section class="game" id="breakout">
         <h1>BREAKOUT GAME</h1>
     </section>
-    <section class="memoryGame" id="spaceInvader">
+    <section class="" id="spaceInvader">
+        <section class="game" id="spaceInvader">
         <h1>SPACE INVADER GAME</h1>
     </section>
 
