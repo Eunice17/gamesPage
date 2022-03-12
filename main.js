@@ -1,5 +1,8 @@
 import * as memory from './modules/memoryGame.js';
 
+/* Declaración nav selección */
+const navigate = document.querySelectorAll('.nav-games a');
+
 const gridComponent = document.querySelector('#grid-memory');
 
 /* Declaración del juego mole :V */
@@ -24,12 +27,30 @@ const createBoard = (()=> {
     gridComponent.appendChild(content);
 });
 
+const funcionalidadNav = (() => {
+    navigate.forEach((elm) => {
+        elm.addEventListener('click', () => {
+            navigate.forEach(element => element.classList.remove("active"));
+            elm.classList.add("active");
+        });
+    });
+});
+
 export const main = (() => {
+    funcionalidadNav();
     memory.cardArray.sort(() => 0.5 - Math.random());
     createBoard();
+});
+
+export const mainMole = (() => {
+    square.forEach(data => {
+        data.classList.remove('moleActive');
+    });
     const squeareRandom = square[Math.floor(Math.random() * 9)];
     console.log(squeareRandom);
 });
 
-/* Incio del memory game */
+/* Incio de memory game */
 main();
+/* Inicio de whac a mole */
+mainMole();
