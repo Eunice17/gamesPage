@@ -1,14 +1,9 @@
 import * as memory from './modules/memoryGame.js';
-
+import { square, btnStart, showMole } from './modules/moleGame.js';
 /* Declaración nav selección */
 const navigate = document.querySelectorAll('.nav-games a');
 
 const gridComponent = document.querySelector('#grid-memory');
-
-/* Declaración del juego mole :V */
-const scoreMole = document.querySelector('#score-mole');
-const timeMole = document.querySelector('#time-mole');
-const square = document.querySelectorAll('.square');
 
 // Creamos tablero para el juego de memoria
 const createBoard = (()=> {
@@ -43,11 +38,10 @@ export const main = (() => {
 });
 
 export const mainMole = (() => {
-    square.forEach(data => {
-        data.classList.remove('moleActive');
+    square.forEach(data => data.classList.remove('moleActive'));
+    btnStart.addEventListener('click', () => {
+        showMole();
     });
-    const squeareRandom = square[Math.floor(Math.random() * 9)];
-    console.log(squeareRandom);
 });
 
 /* Incio de memory game */
