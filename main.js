@@ -38,7 +38,6 @@ export const main = (() => {
 });
 
 export const mainMole = (() => {
-    square.forEach(data => data.classList.remove('moleActive'));
     btnStart.addEventListener('click', () => {
         showMole();
     });
