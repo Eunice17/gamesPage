@@ -7,6 +7,7 @@ export const btnStart = document.querySelector('.btn-start');
 const btnReset = document.querySelector('.btn-reset');
 let squeareRandom = null;
 let timeInterval = null;
+let score = 20;
 
 const removeRandomMole = (() => {
     square.forEach(data => data.classList.remove('moleActive'));
@@ -20,15 +21,19 @@ const showRandomMole = (() => {
 /* Comprobamos si acerto en lo seleccionado, necesario también para eliminar eliminar eventos */
 const match = ((e) => {
     if (e.target.id ===  squeareRandom.id) {
-        alert("Tengo tanto odio, que me carcome el alma");
+        score --;
+        scoreMole.textContent = score;
+        //alert("Tengo tanto odio, que me carcome el alma");
     }
 });
 
 export const showMole = (() => {
+    score = 20;
     square.forEach((elm) => {
         elm.addEventListener('mousedown', match);
     });
     btnReset.addEventListener('click', () => {
+        scoreMole.textContent = 20;
         square.forEach((elm) => {
             elm.removeEventListener('mousedown', match);
         });
@@ -37,5 +42,5 @@ export const showMole = (() => {
         btnStart.disabled = false;
     });
 
-    timeInterval = setInterval(showRandomMole, 800);
+    timeInterval = setInterval(showRandomMole, 520);
 });
