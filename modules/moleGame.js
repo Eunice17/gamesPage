@@ -8,6 +8,8 @@ const btnReset = document.querySelector('.btn-reset');
 let squeareRandom = null;
 let timeInterval = null;
 let score = 20;
+let timedown = 60;
+let dowm = null;
 
 const removeRandomMole = (() => {
     square.forEach(data => data.classList.remove('moleActive'));
@@ -27,13 +29,26 @@ const match = ((e) => {
     }
 });
 
+const downTime = (() => {
+    timedown --;
+    timeMole.textContent = timedown;
+    if ( timedown === 0 ) {
+        clearInterval(dowm);
+        alert("Time over");
+    }
+
+});
+
 export const showMole = (() => {
     score = 20;
+    dowm = setInterval(downTime, 520);
     square.forEach((elm) => {
         elm.addEventListener('mousedown', match);
     });
     btnReset.addEventListener('click', () => {
         scoreMole.textContent = 20;
+        timeMole.textContent = 60;
+        clearInterval(dowm);
         square.forEach((elm) => {
             elm.removeEventListener('mousedown', match);
         });
