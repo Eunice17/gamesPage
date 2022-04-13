@@ -1,5 +1,6 @@
 import * as memory from './modules/memoryGame.js';
-import { square, btnStart, showMole } from './modules/moleGame.js';
+import * as breakG from './modules/breakGame.js';
+import { btnStart, showMole } from './modules/moleGame.js';
 document.querySelector('.year').textContent = new Date().getFullYear();
 /* Declaración nav selección */
 const navigate = document.querySelectorAll('.nav-games a');

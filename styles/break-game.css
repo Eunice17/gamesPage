@@ -1,0 +1,17 @@
+@import './palette.css';
+
+.grid-break {
+    position: relative;
+    width: 80%;
+    height: 40%;
+    border: 1px solid var(--gris);
+}
+
+.block {
+    background-color: var(--verde);
+    width: 100px;
+    height: 8%;
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+}
