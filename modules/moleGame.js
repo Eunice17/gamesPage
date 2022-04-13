@@ -29,32 +29,45 @@ const match = ((e) => {
     }
 });
 
+const reset = (() => {
+    scoreMole.textContent = 20;
+    timeMole.textContent = 60;
+    clearInterval(dowm);
+    square.forEach((elm) => {
+        elm.removeEventListener('mousedown', match);
+    });
+    removeRandomMole();
+    clearInterval(timeInterval);
+    btnStart.disabled = false;
+});
+
 const downTime = (() => {
     timedown --;
     timeMole.textContent = timedown;
-    if ( timedown === 0 ) {
+
+    if ( timedown === 0 && score > 0) {
         clearInterval(dowm);
         alert("Time over");
+        reset();
+    } else if (timedown == 0 && score == 0) {
+        alert("You won on time!! :)");
+        reset();
+    } else if (timedown > 0 && score == 0) {
+        alert("You are a winner!! :D");
+        reset();
     }
 
 });
 
 export const showMole = (() => {
     score = 20;
+    timedown = 60;
     dowm = setInterval(downTime, 520);
     square.forEach((elm) => {
         elm.addEventListener('mousedown', match);
     });
     btnReset.addEventListener('click', () => {
-        scoreMole.textContent = 20;
-        timeMole.textContent = 60;
-        clearInterval(dowm);
-        square.forEach((elm) => {
-            elm.removeEventListener('mousedown', match);
-        });
-        removeRandomMole();
-        clearInterval(timeInterval);
-        btnStart.disabled = false;
+        reset();
     });
 
     timeInterval = setInterval(showRandomMole, 520);
