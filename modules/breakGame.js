@@ -28,20 +28,48 @@ const blocks = [
     new Block(2, 60),
     new Block(26, 60),
     new Block(51, 60),
-    new Block(75, 60),
-    /* new Block(2, 91),
-    new Block(80, 91),
-    new Block(157, 91),
-    new Block(235, 91), */
+    new Block(75, 60)
 ]
 
-console.log(blocks[0]);
+const createBall = (() => {
+    const elementBall = document.createElement('div');
+
+    elementBall.classList.add('ballGame');
+});
+
+const selectGamer = ((block) => {
+    block.addEventListener( 'click', (e) => {
+        block.textContent = "← Move →";
+        block.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
+        block.style.color = "white";
+        let count = startGamer[0];
+        document.addEventListener('keydown', (e) => {
+            console.log(e.key);
+            switch(e.key) {
+                case ('ArrowLeft'):
+                    if (count > 0) {
+                        count -=2;
+                        console.log("left", count);
+                        block.style.left = count+"%";
+                    }
+                    break;
+                    case ('ArrowRight'):
+                        if (count< 100-30) {
+                            count+=2;
+                            block.style.left = count+ "%";
+                            console.log("r", count);
+                        }
+                    break;
+            }
+        });
+    });
+});
 
 const createBlock = (() => {
     for (let i = 0; i< blocks.length; i++) {
         const block = document.createElement('div');
         block.classList.add('block');
-        block.style.backgroundColor = "var(--verde)";
+        block.style.backgroundColor = "var(--verde-cielo)";
         block.style.left = blocks[i].bottomLeft[0]+'%';
         block.style.bottom = blocks[i].bottomLeft[1]+'%';
         marco.appendChild(block);
@@ -51,10 +79,15 @@ const createBlock = (() => {
 const createGamer = (() => {
     const block = document.createElement('div');
         block.classList.add('blockGamer');
+        block.textContent = "Click here";
         block.style.backgroundColor = "var(--nav)";
         block.style.left = startGamer[0]+'%';
         block.style.bottom = startGamer[1]+'%';
         marco.appendChild(block);
+        selectGamer(block);
 });
+
+
 createGamer();
+createBall();
 createBlock();
