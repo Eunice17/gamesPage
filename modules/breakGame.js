@@ -35,6 +35,7 @@ const createBall = (() => {
     const elementBall = document.createElement('div');
 
     elementBall.classList.add('ballGame');
+    marco.appendChild(elementBall);
 });
 
 const selectGamer = ((block) => {

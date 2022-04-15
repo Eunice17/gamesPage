@@ -30,7 +30,24 @@
 }
 
 .ballGame {
-    width: 50px;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 8%;
+    border: 3px solid rgb(173, 173, 173);
+    border-left: 3px solid rgb(222, 222, 222);
+    animation: spin 1s linear infinite;
+    left: 50%;
+    z-index: 9;
+    background-color: rgba(18, 18, 18, 0.719);
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    } 100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media screen and (min-width: 1200px) {
