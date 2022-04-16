@@ -30,17 +30,15 @@
 }
 
 .ballGame {
-    width: 35px;
-    height: 35px;
-    position: absolute;
+    width: 10%;
+    height: 5.5%;
     border-radius: 50%;
-    bottom: 8%;
+    position: absolute;
     border: 3px solid rgb(173, 173, 173);
     border-left: 3px solid rgb(222, 222, 222);
     animation: spin 1s linear infinite;
-    left: 50%;
-    z-index: 9;
     background-color: rgba(18, 18, 18, 0.719);
+    /* z-index: 0; */
 }
 @keyframes spin {
     0% {
@@ -54,7 +52,8 @@
     .block {
         width: 23%;
     }
-    .blockGamer {
-        /* width: 25%; */
+    .ballGame {
+        width: 4%;
+        height: 8%;
     }
 }

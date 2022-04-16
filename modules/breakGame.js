@@ -1,7 +1,10 @@
 const marco = document.querySelector('.grid-break');
+const elementBall = document.createElement('div');
 const blockWidth = 100;
 const blockHeight = 6;
-const startGamer = [40, 1];
+const startGamer = [35, 1];
+const startBall = [50, 8];
+const startBallFlag = startBall;
 
 class Block {
     constructor(xAxis, yAxis) {
@@ -11,7 +14,7 @@ class Block {
         this.topRigth = [xAxis + blockWidth, yAxis + blockHeight];
     }
 }
-
+/** Es necesario el arreglo para posicionar los bloques en orden */
 const blocks = [
     new Block(2, 90),
     new Block(26, 90),
@@ -30,20 +33,40 @@ const blocks = [
     new Block(51, 60),
     new Block(75, 60)
 ]
+/** suma los ejes para mover la pelota */
+const moveBall = (() => {
+    if (startBallFlag[0] < 87) {
+        startBallFlag[0] += 2;
+        startBallFlag[1] += 2;
+        console.log(startBallFlag[0], startBallFlag[1]);
+        axisBall();
+    }
+});
+
+const axisBall = (() => {
+    elementBall.style.left = startBallFlag[0]+"%";
+    elementBall.style.bottom = startBallFlag[1]+"%";
+});
 
 const createBall = (() => {
-    const elementBall = document.createElement('div');
-
     elementBall.classList.add('ballGame');
+    axisBall();
     marco.appendChild(elementBall);
 });
 
+/**
+ * 
+ * función necesaria para mover el bloque jugador de izq a derecha.
+ */
 const selectGamer = ((block) => {
     block.addEventListener( 'click', (e) => {
         block.textContent = "← Move →";
         block.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
         block.style.color = "white";
         let count = startGamer[0];
+
+        setInterval(moveBall, 100);
+
         document.addEventListener('keydown', (e) => {
             console.log(e.key);
             switch(e.key) {
@@ -65,7 +88,9 @@ const selectGamer = ((block) => {
         });
     });
 });
-
+/**
+ * Crea y ubica los bloques en el marco.
+ */
 const createBlock = (() => {
     for (let i = 0; i< blocks.length; i++) {
         const block = document.createElement('div');
@@ -76,7 +101,9 @@ const createBlock = (() => {
         marco.appendChild(block);
     }
 });
-
+/**
+ * Crea el bloque que será movido por el jugador.
+ */
 const createGamer = (() => {
     const block = document.createElement('div');
         block.classList.add('blockGamer');
