@@ -41,11 +41,29 @@ const blocks = [
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
 const changeDirection = (() => {
-    if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
+    if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) ) ||
+        startBallFlag[1] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().height).toFixed(2) ) ||
+        startBallFlag[0] <= 0) {
         if (xDirection == 2 && yDirection == 2) {
             xDirection = -2;
             return;
         }
+/*         if (xDirection == 2 && yDirection == -2) {
+            xDirection = -2;
+            return;
+        } */
+        if (xDirection == -2 && yDirection == -2) {
+            xDirection = 2;
+            return;
+        }
+        if (xDirection == -2 && yDirection == 2) {
+            yDirection = -2;
+            return;
+        }
+    }
+    if (startBallFlag[1] <= 0) {
+        clearInterval(start);
+        console.log("Perdiste");
     }
 });
 
