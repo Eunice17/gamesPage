@@ -5,6 +5,10 @@ const blockHeight = 6;
 const startGamer = [35, 1];
 const startBall = [50, 8];
 const startBallFlag = startBall;
+/* Cambiar la dirección, iniciamos en 2*/
+let xDirection = 2;
+let yDirection = 2;
+let start;
 
 class Block {
     constructor(xAxis, yAxis) {
@@ -33,14 +37,27 @@ const blocks = [
     new Block(51, 60),
     new Block(75, 60)
 ]
+/**
+ * Cambiamos la dirección de la esfera si choca con los border del marco
+ */
+const changeDirection = (() => {
+    if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
+        if (xDirection == 2 && yDirection == 2) {
+            xDirection = -2;
+            return;
+        }
+    }
+});
+
 /** suma los ejes para mover la pelota */
 const moveBall = (() => {
-    if (startBallFlag[0] < 87) {
-        startBallFlag[0] += 2;
-        startBallFlag[1] += 2;
-        console.log(startBallFlag[0], startBallFlag[1]);
-        axisBall();
-    }
+    startBallFlag[0] += xDirection;
+    startBallFlag[1] += yDirection;
+    console.log(startBallFlag[0], startBallFlag[1]);
+    axisBall();
+    changeDirection();
+    /* if (startBallFlag[0] < 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
+    } */
 });
 
 const axisBall = (() => {
@@ -65,7 +82,7 @@ const selectGamer = ((block) => {
         block.style.color = "white";
         let count = startGamer[0];
 
-        setInterval(moveBall, 100);
+        start = setInterval(moveBall, 100);
 
         document.addEventListener('keydown', (e) => {
             console.log(e.key);
