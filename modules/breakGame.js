@@ -3,8 +3,12 @@ const elementBall = document.createElement('div');
 const blockWidth = 100;
 const blockHeight = 6;
 const startGamer = [35, 1];
+let count = startGamer[0];
 const startBall = [50, 8];
 const startBallFlag = startBall;
+const textScore = document.querySelector('.textScore');
+const block = document.createElement('div');
+
 /* Cambiar la dirección, iniciamos en 2*/
 let xDirection = 2;
 let yDirection = 2;
@@ -37,6 +41,26 @@ const blocks = [
     new Block(51, 60),
     new Block(75, 60)
 ]
+
+const moveUser = ((e) => {
+    switch(e.key) {
+        case ('ArrowLeft'):
+            if (count > 0) {
+                count -=2;
+                console.log("left", count);
+                block.style.left = count+"%";
+            }
+            break;
+            case ('ArrowRight'):
+                if (count< 100-30) {
+                    count+=2;
+                    block.style.left = count+ "%";
+                    console.log("r", count);
+                }
+            break;
+    }
+});
+
 /**
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
@@ -63,7 +87,17 @@ const changeDirection = (() => {
     }
     if (startBallFlag[1] <= 0) {
         clearInterval(start);
-        console.log("Perdiste");
+        textScore.textContent = "Loser";
+        document.removeEventListener('keydown', moveUser);
+    }
+});
+
+const collision = ((xStart, yStart) => {
+    for (let i=0; i<= blocks.length; i++) {
+        console.log(blocks[i]);
+        /* if (xStart == blocks[i].bottomLeft[0] && yStart == blocks[i].bottomLeft[1] ) {
+            console.log("COLISIÓN");
+        } */
     }
 });
 
@@ -71,7 +105,7 @@ const changeDirection = (() => {
 const moveBall = (() => {
     startBallFlag[0] += xDirection;
     startBallFlag[1] += yDirection;
-    console.log(startBallFlag[0], startBallFlag[1]);
+    collision(startBallFlag[0], startBallFlag[1]);
     axisBall();
     changeDirection();
     /* if (startBallFlag[0] < 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
@@ -98,29 +132,10 @@ const selectGamer = ((block) => {
         block.textContent = "← Move →";
         block.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
         block.style.color = "white";
-        let count = startGamer[0];
-
+        count = startGamer[0];
         start = setInterval(moveBall, 100);
 
-        document.addEventListener('keydown', (e) => {
-            console.log(e.key);
-            switch(e.key) {
-                case ('ArrowLeft'):
-                    if (count > 0) {
-                        count -=2;
-                        console.log("left", count);
-                        block.style.left = count+"%";
-                    }
-                    break;
-                    case ('ArrowRight'):
-                        if (count< 100-30) {
-                            count+=2;
-                            block.style.left = count+ "%";
-                            console.log("r", count);
-                        }
-                    break;
-            }
-        });
+        document.addEventListener('keydown', moveUser);
     });
 });
 /**
@@ -140,7 +155,6 @@ const createBlock = (() => {
  * Crea el bloque que será movido por el jugador.
  */
 const createGamer = (() => {
-    const block = document.createElement('div');
         block.classList.add('blockGamer');
         block.textContent = "Click here";
         block.style.backgroundColor = "var(--nav)";

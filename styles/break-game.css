@@ -2,6 +2,9 @@
 
 .grid-break {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80%;
     height: 67%;
     border: 1px solid var(--gris);
@@ -41,6 +44,10 @@
     animation: spin 5s linear infinite;
     background-color: rgba(18, 18, 18, 0.719);
     z-index: 9;
+}
+.textScore {
+    font-size: 20px;
+    text-transform: uppercase;
 }
 @keyframes spin {
     0% {
