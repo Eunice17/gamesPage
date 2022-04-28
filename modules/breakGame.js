@@ -1,7 +1,7 @@
 const marco = document.querySelector('.grid-break');
 const elementBall = document.createElement('div');
-const blockWidth = 100;
-const blockHeight = 6;
+const blockWidth = 22;
+const blockHeight = 8;
 const startGamer = [35, 1];
 let count = startGamer[0];
 const startBall = [50, 8];
@@ -47,7 +47,6 @@ const moveUser = ((e) => {
         case ('ArrowLeft'):
             if (count > 0) {
                 count -=2;
-                console.log("left", count);
                 block.style.left = count+"%";
             }
             break;
@@ -55,7 +54,6 @@ const moveUser = ((e) => {
                 if (count< 100-30) {
                     count+=2;
                     block.style.left = count+ "%";
-                    console.log("r", count);
                 }
             break;
     }
@@ -65,25 +63,41 @@ const moveUser = ((e) => {
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
 const changeDirection = (() => {
+    if (xDirection == 2 && yDirection == 2) {
+        xDirection = -2;
+        return;
+    }
+        if (xDirection == 2 && yDirection == -2) {
+        xDirection = -2;
+        return;
+    }
+    if (xDirection == -2 && yDirection == -2) {
+        xDirection = 2;
+        return;
+    }
+    if (xDirection == -2 && yDirection == 2) {
+        yDirection = -2;
+        return;
+    }
+});
+
+const checkForCollision = (() => {
+    debugger;
+    for (let i=0; i< blocks.length; i++) {
+        if ((startBallFlag[0] > blocks[i].bottomLeft[0] && startBallFlag[0] < blocks[i].bottomRigth[0])
+        && (startBallFlag[1] > blocks[i].bottomLeft[1] && startBallFlag[1] < blocks[i].topLeft[1]) ) {
+            const blocksGroup = Array.from(document.querySelectorAll('.block'));
+            console.log(blocksGroup[i], i);
+            blocksGroup[i].classList.remove('block');
+            blocks.splice(i, 1);
+            changeDirection();
+        }
+    }
+
     if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) ) ||
         startBallFlag[1] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().height).toFixed(2) ) ||
         startBallFlag[0] <= 0) {
-        if (xDirection == 2 && yDirection == 2) {
-            xDirection = -2;
-            return;
-        }
-/*         if (xDirection == 2 && yDirection == -2) {
-            xDirection = -2;
-            return;
-        } */
-        if (xDirection == -2 && yDirection == -2) {
-            xDirection = 2;
-            return;
-        }
-        if (xDirection == -2 && yDirection == 2) {
-            yDirection = -2;
-            return;
-        }
+        changeDirection();
     }
     if (startBallFlag[1] <= 0) {
         clearInterval(start);
@@ -92,22 +106,12 @@ const changeDirection = (() => {
     }
 });
 
-const collision = ((xStart, yStart) => {
-    for (let i=0; i<= blocks.length; i++) {
-        console.log(blocks[i]);
-        /* if (xStart == blocks[i].bottomLeft[0] && yStart == blocks[i].bottomLeft[1] ) {
-            console.log("COLISIÓN");
-        } */
-    }
-});
-
 /** suma los ejes para mover la pelota */
 const moveBall = (() => {
     startBallFlag[0] += xDirection;
     startBallFlag[1] += yDirection;
-    collision(startBallFlag[0], startBallFlag[1]);
     axisBall();
-    changeDirection();
+    checkForCollision();
     /* if (startBallFlag[0] < 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
     } */
 });
@@ -165,6 +169,6 @@ const createGamer = (() => {
 });
 
 
+createBlock();
 createGamer();
 createBall();
-createBlock();
