@@ -2,8 +2,10 @@ const marco = document.querySelector('.grid-break');
 const elementBall = document.createElement('div');
 const blockWidth = 22;
 const blockHeight = 8;
+const gameBlockWidth = 32;
+const gameBlockHeight = 7;
 const startGamer = [35, 1];
-let count = startGamer[0];
+let count = startGamer;
 const startBall = [50, 8];
 const startBallFlag = startBall;
 const textScore = document.querySelector('.textScore');
@@ -45,15 +47,15 @@ const blocks = [
 const moveUser = ((e) => {
     switch(e.key) {
         case ('ArrowLeft'):
-            if (count > 0) {
-                count -=2;
-                block.style.left = count+"%";
+            if (count[0] > 1) {
+                count[0] -=2;
+                block.style.left = count[0] +"%";
             }
             break;
             case ('ArrowRight'):
-                if (count< 100-30) {
-                    count+=2;
-                    block.style.left = count+ "%";
+                if (count[0] < 100-31) {
+                    count[0] +=2;
+                    block.style.left = count[0] + "%";
                 }
             break;
     }
@@ -63,8 +65,9 @@ const moveUser = ((e) => {
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
 const changeDirection = (() => {
+    console.log("x,y", xDirection, yDirection);
     if (xDirection == 2 && yDirection == 2) {
-        xDirection = -2;
+        yDirection = -2;
         return;
     }
         if (xDirection == 2 && yDirection == -2) {
@@ -72,26 +75,30 @@ const changeDirection = (() => {
         return;
     }
     if (xDirection == -2 && yDirection == -2) {
-        xDirection = 2;
+        yDirection = 2;
         return;
     }
     if (xDirection == -2 && yDirection == 2) {
-        yDirection = -2;
+        xDirection = 2;
         return;
     }
 });
 
 const checkForCollision = (() => {
-    debugger;
     for (let i=0; i< blocks.length; i++) {
-        if ((startBallFlag[0] > blocks[i].bottomLeft[0] && startBallFlag[0] < blocks[i].bottomRigth[0])
-        && (startBallFlag[1] > blocks[i].bottomLeft[1] && startBallFlag[1] < blocks[i].topLeft[1]) ) {
+        if ((startBallFlag[0] + 5 > blocks[i].bottomLeft[0] && startBallFlag[0] < blocks[i].bottomRigth[0])
+        && (startBallFlag[1] + 5 > blocks[i].bottomLeft[1] && startBallFlag[1] < blocks[i].topLeft[1]) ) {
             const blocksGroup = Array.from(document.querySelectorAll('.block'));
-            console.log(blocksGroup[i], i);
             blocksGroup[i].classList.remove('block');
             blocks.splice(i, 1);
             changeDirection();
         }
+    }
+    console.log(count, startBallFlag);
+    if ((startBallFlag[0] > count[0] && startBallFlag[0] < count[0] + gameBlockWidth ) &&
+        startBallFlag[1] > count[1] && startBallFlag[1] < count[1] + gameBlockHeight) {
+            console.log("Corazón");
+            changeDirection();
     }
 
     if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) ) ||
@@ -136,7 +143,7 @@ const selectGamer = ((block) => {
         block.textContent = "← Move →";
         block.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
         block.style.color = "white";
-        count = startGamer[0];
+        count = startGamer;
         start = setInterval(moveBall, 100);
 
         document.addEventListener('keydown', moveUser);
