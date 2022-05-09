@@ -1,15 +1,18 @@
 const marco = document.querySelector('.grid-break');
 const elementBall = document.createElement('div');
+const scoreBreak = document.querySelector(".scoreBreak");
 const blockWidth = 22;
 const blockHeight = 8;
-const gameBlockWidth = 32;
+const gameBlockWidth = 28;
 const gameBlockHeight = 7;
 const startGamer = [35, 1];
 let count = startGamer;
 const startBall = [50, 8];
-const startBallFlag = startBall;
+let startBallFlag = startBall;
 const textScore = document.querySelector('.textScore');
-const block = document.createElement('div');
+const blockGamer = document.createElement('div');
+/* Contador de resultados al colisionar con los bloques*/
+let contResult = 0;
 
 /* Cambiar la dirección, iniciamos en 2*/
 let xDirection = 2;
@@ -49,13 +52,13 @@ const moveUser = ((e) => {
         case ('ArrowLeft'):
             if (count[0] > 1) {
                 count[0] -=2;
-                block.style.left = count[0] +"%";
+                blockGamer.style.left = count[0] +"%";
             }
             break;
             case ('ArrowRight'):
                 if (count[0] < 100-31) {
                     count[0] +=2;
-                    block.style.left = count[0] + "%";
+                    blockGamer.style.left = count[0] + "%";
                 }
             break;
     }
@@ -83,6 +86,19 @@ const changeDirection = (() => {
         return;
     }
 });
+/**
+ * Crea y ubica los bloques en el marco.
+ */
+ const createBlock = (() => {
+    for (let i = 0; i< blocks.length; i++) {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        block.style.backgroundColor = "var(--verde-cielo)";
+        block.style.left = blocks[i].bottomLeft[0]+'%';
+        block.style.bottom = blocks[i].bottomLeft[1]+'%';
+        marco.appendChild(block);
+    }
+});
 
 const checkForCollision = (() => {
     for (let i=0; i< blocks.length; i++) {
@@ -91,13 +107,26 @@ const checkForCollision = (() => {
             const blocksGroup = Array.from(document.querySelectorAll('.block'));
             blocksGroup[i].classList.remove('block');
             blocks.splice(i, 1);
-            changeDirection();
+            contResult += 1;
+            scoreBreak.textContent = contResult;
+            if ( contResult === 16 ) {
+                document.removeEventListener('keydown', moveUser);
+                clearInterval(start);
+                textScore.textContent = "Amazing"
+                setTimeout(() => {
+                    count = startGamer;
+                    startBallFlag = startBall;
+                    createBlock();
+                }, 3000);
+            } else {
+                changeDirection();
+            } 
         }
     }
-    console.log(count, startBallFlag);
-    if ((startBallFlag[0] > count[0] && startBallFlag[0] < count[0] + gameBlockWidth ) &&
-        startBallFlag[1] > count[1] && startBallFlag[1] < count[1] + gameBlockHeight) {
-            console.log("Corazón");
+    
+    if (((startBallFlag[0] >= count[0] || startBallFlag[0] > count[0] - 3) && startBallFlag[0] <= count[0] + gameBlockWidth ) &&
+    (startBallFlag[1] >= count[1] && startBallFlag[1] <= count[1] + gameBlockHeight)) {
+            //clearInterval(start);
             changeDirection();
     }
 
@@ -138,41 +167,30 @@ const createBall = (() => {
  * 
  * función necesaria para mover el bloque jugador de izq a derecha.
  */
-const selectGamer = ((block) => {
-    block.addEventListener( 'click', (e) => {
-        block.textContent = "← Move →";
-        block.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
-        block.style.color = "white";
+const selectGamer = (() => {
+    blockGamer.addEventListener( 'click', () => {
+        blockGamer.textContent = "← Move →";
+        /* Aún no se logro deshabilitar el botón */
+        blockGamer.disabled = true;
+        blockGamer.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
+        blockGamer.style.color = "white";
         count = startGamer;
-        start = setInterval(moveBall, 100);
+        start = setInterval(moveBall, 70);
 
         document.addEventListener('keydown', moveUser);
     });
 });
 /**
- * Crea y ubica los bloques en el marco.
- */
-const createBlock = (() => {
-    for (let i = 0; i< blocks.length; i++) {
-        const block = document.createElement('div');
-        block.classList.add('block');
-        block.style.backgroundColor = "var(--verde-cielo)";
-        block.style.left = blocks[i].bottomLeft[0]+'%';
-        block.style.bottom = blocks[i].bottomLeft[1]+'%';
-        marco.appendChild(block);
-    }
-});
-/**
  * Crea el bloque que será movido por el jugador.
  */
 const createGamer = (() => {
-        block.classList.add('blockGamer');
-        block.textContent = "Click here";
-        block.style.backgroundColor = "var(--nav)";
-        block.style.left = startGamer[0]+'%';
-        block.style.bottom = startGamer[1]+'%';
-        marco.appendChild(block);
-        selectGamer(block);
+        blockGamer.classList.add('blockGamer');
+        blockGamer.textContent = "Click here";
+        blockGamer.style.backgroundColor = "var(--nav)";
+        blockGamer.style.left = startGamer[0]+'%';
+        blockGamer.style.bottom = startGamer[1]+'%';
+        marco.appendChild(blockGamer);
+        selectGamer(blockGamer);
 });
 
 
