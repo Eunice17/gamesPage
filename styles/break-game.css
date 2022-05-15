@@ -62,7 +62,7 @@
 
 @media screen and (min-width: 1200px) {
     .grid-break {
-        max-width: 65%;
+        max-width: 55%;
     }
     .block {
         width: 23%;

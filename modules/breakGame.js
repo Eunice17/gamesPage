@@ -10,7 +10,7 @@ let count = startGamer;
 const startBall = [50, 8];
 let startBallFlag = startBall;
 const textScore = document.querySelector('.textScore');
-const blockGamer = document.createElement('div');
+const blockGamer = document.createElement('button');
 /* Contador de resultados al colisionar con los bloques*/
 let contResult = 0;
 
@@ -46,6 +46,10 @@ const blocks = [
     new Block(51, 60),
     new Block(75, 60)
 ]
+/**
+ * Necesitamos tener un arreglo auxiliar para poder reiniciar el juego
+ */
+let blocksAux = [...blocks];
 
 const moveUser = ((e) => {
     switch(e.key) {
@@ -68,7 +72,6 @@ const moveUser = ((e) => {
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
 const changeDirection = (() => {
-    console.log("x,y", xDirection, yDirection);
     if (xDirection == 2 && yDirection == 2) {
         yDirection = -2;
         return;
@@ -101,12 +104,12 @@ const changeDirection = (() => {
 });
 
 const checkForCollision = (() => {
-    for (let i=0; i< blocks.length; i++) {
-        if ((startBallFlag[0] + 5 > blocks[i].bottomLeft[0] && startBallFlag[0] < blocks[i].bottomRigth[0])
-        && (startBallFlag[1] + 5 > blocks[i].bottomLeft[1] && startBallFlag[1] < blocks[i].topLeft[1]) ) {
+    for (let i=0; i< blocksAux.length; i++) {
+        if ((startBallFlag[0] + 5 > blocksAux[i].bottomLeft[0] && startBallFlag[0] < blocksAux[i].bottomRigth[0])
+        && (startBallFlag[1] + 5 > blocksAux[i].bottomLeft[1] && startBallFlag[1] < blocksAux[i].topLeft[1]) ) {
             const blocksGroup = Array.from(document.querySelectorAll('.block'));
             blocksGroup[i].classList.remove('block');
-            blocks.splice(i, 1);
+            blocksAux.splice(i, 1);
             contResult += 1;
             scoreBreak.textContent = contResult;
             if ( contResult === 16 ) {
@@ -117,16 +120,16 @@ const checkForCollision = (() => {
                     count = startGamer;
                     startBallFlag = startBall;
                     createBlock();
+                    console.log(blocks);
                 }, 3000);
             } else {
                 changeDirection();
             } 
         }
     }
-    
-    if (((startBallFlag[0] >= count[0] || startBallFlag[0] > count[0] - 3) && startBallFlag[0] <= count[0] + gameBlockWidth ) &&
-    (startBallFlag[1] >= count[1] && startBallFlag[1] <= count[1] + gameBlockHeight)) {
-            //clearInterval(start);
+    console.log("X ball", startBallFlag[0] - count[0]);
+    if (((startBallFlag[0] >= count[0] || (count[0] - startBallFlag[0] > 1 && count[0] - startBallFlag[0] <= 7  )) 
+    && startBallFlag[0] <= count[0] + gameBlockWidth ) && (startBallFlag[1] >= count[1] && startBallFlag[1] <= count[1] + gameBlockHeight)) {
             changeDirection();
     }
 
@@ -148,8 +151,6 @@ const moveBall = (() => {
     startBallFlag[1] += yDirection;
     axisBall();
     checkForCollision();
-    /* if (startBallFlag[0] < 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) )) {
-    } */
 });
 
 const axisBall = (() => {
@@ -168,14 +169,14 @@ const createBall = (() => {
  * función necesaria para mover el bloque jugador de izq a derecha.
  */
 const selectGamer = (() => {
-    blockGamer.addEventListener( 'click', () => {
+    blockGamer.addEventListener( 'click', (e) => {
         blockGamer.textContent = "← Move →";
         /* Aún no se logro deshabilitar el botón */
         blockGamer.disabled = true;
         blockGamer.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
         blockGamer.style.color = "white";
         count = startGamer;
-        start = setInterval(moveBall, 70);
+        start = setInterval(moveBall, 40);
 
         document.addEventListener('keydown', moveUser);
     });
