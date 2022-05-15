@@ -6,11 +6,12 @@ const blockHeight = 8;
 const gameBlockWidth = 28;
 const gameBlockHeight = 7;
 const startGamer = [35, 1];
-let count = startGamer;
+let count = [...startGamer];
 const startBall = [50, 8];
-let startBallFlag = startBall;
+let startBallFlag = [...startBall];
 const textScore = document.querySelector('.textScore');
 const blockGamer = document.createElement('button');
+const blockListCover = document.createElement('div');
 /* Contador de resultados al colisionar con los bloques*/
 let contResult = 0;
 
@@ -51,6 +52,28 @@ const blocks = [
  */
 let blocksAux = [...blocks];
 
+/* Reseteamos el juego break */
+const restartGameBreak = (() => {
+    /* Reiniciamos el juego despues de 2 seg */
+    contResult = 0;
+    document.removeEventListener('keydown', moveUser);
+    blockGamer.removeEventListener('click', selectGamer);
+    clearInterval(start);
+    blockListCover.querySelectorAll(".block").forEach((elm) => {
+        blockListCover.removeChild(elm);
+    })
+    setTimeout(() => {
+        count = [...startGamer];
+        startBallFlag = [...startBall];
+        blockGamer.disabled = false;
+        scoreBreak.textContent = 0;
+        textScore.textContent = "";
+        createBlock();
+        createBall();
+        createGamer();
+    }, 1000);
+});
+
 const moveUser = ((e) => {
     switch(e.key) {
         case ('ArrowLeft'):
@@ -89,45 +112,32 @@ const changeDirection = (() => {
         return;
     }
 });
-/**
- * Crea y ubica los bloques en el marco.
- */
- const createBlock = (() => {
-    for (let i = 0; i< blocks.length; i++) {
-        const block = document.createElement('div');
-        block.classList.add('block');
-        block.style.backgroundColor = "var(--verde-cielo)";
-        block.style.left = blocks[i].bottomLeft[0]+'%';
-        block.style.bottom = blocks[i].bottomLeft[1]+'%';
-        marco.appendChild(block);
-    }
+
+const mainCreateGamer = (() => {
+    blockGamer.textContent = "Click here";
+    blockGamer.style.backgroundColor = "var(--nav)";
+    blockGamer.style.left = startGamer[0]+'%';
+    blockGamer.style.bottom = startGamer[1]+'%';
 });
 
 const checkForCollision = (() => {
     for (let i=0; i< blocksAux.length; i++) {
         if ((startBallFlag[0] + 5 > blocksAux[i].bottomLeft[0] && startBallFlag[0] < blocksAux[i].bottomRigth[0])
         && (startBallFlag[1] + 5 > blocksAux[i].bottomLeft[1] && startBallFlag[1] < blocksAux[i].topLeft[1]) ) {
-            const blocksGroup = Array.from(document.querySelectorAll('.block'));
-            blocksGroup[i].classList.remove('block');
+            blockListCover.removeChild(blockListCover.querySelectorAll(".block")[i]);
             blocksAux.splice(i, 1);
             contResult += 1;
             scoreBreak.textContent = contResult;
             if ( contResult === 16 ) {
-                document.removeEventListener('keydown', moveUser);
-                clearInterval(start);
-                textScore.textContent = "Amazing"
-                setTimeout(() => {
-                    count = startGamer;
-                    startBallFlag = startBall;
-                    createBlock();
-                    console.log(blocks);
-                }, 3000);
+                textScore.textContent = "Amazing";
+                /* Reinicia el juego */
+                restartGameBreak();
             } else {
                 changeDirection();
             } 
         }
     }
-    console.log("X ball", startBallFlag[0] - count[0]);
+
     if (((startBallFlag[0] >= count[0] || (count[0] - startBallFlag[0] > 1 && count[0] - startBallFlag[0] <= 7  )) 
     && startBallFlag[0] <= count[0] + gameBlockWidth ) && (startBallFlag[1] >= count[1] && startBallFlag[1] <= count[1] + gameBlockHeight)) {
             changeDirection();
@@ -141,7 +151,7 @@ const checkForCollision = (() => {
     if (startBallFlag[1] <= 0) {
         clearInterval(start);
         textScore.textContent = "Loser";
-        document.removeEventListener('keydown', moveUser);
+        restartGameBreak();
     }
 });
 
@@ -158,6 +168,38 @@ const axisBall = (() => {
     elementBall.style.bottom = startBallFlag[1]+"%";
 });
 
+/**
+ * 
+ * función necesaria para mover el bloque jugador de izq a derecha.
+ */
+const selectGamer = (() => {
+        blockGamer.textContent = "← Move →";
+        /* Deshabilitamos el boton al iniciar el juego */
+        blockGamer.disabled = true;
+        blockGamer.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
+        blockGamer.style.color = "white";
+        //count = startGamer;
+        start = setInterval(moveBall, 40);
+        document.addEventListener('keydown', moveUser);
+});
+
+/**
+ * Crea y ubica los bloques en el marco.
+ */
+ const createBlock = (() => {
+    blocksAux = [...blocks];
+    for (let i = 0; i< blocks.length; i++) {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        block.style.backgroundColor = "var(--verde-cielo)";
+        block.style.left = blocks[i].bottomLeft[0]+'%';
+        block.style.bottom = blocks[i].bottomLeft[1]+'%';
+        blockListCover.classList.add('listCover');
+        blockListCover.appendChild(block);
+    }
+    marco.appendChild(blockListCover);
+});
+
 const createBall = (() => {
     elementBall.classList.add('ballGame');
     axisBall();
@@ -165,36 +207,17 @@ const createBall = (() => {
 });
 
 /**
- * 
- * función necesaria para mover el bloque jugador de izq a derecha.
- */
-const selectGamer = (() => {
-    blockGamer.addEventListener( 'click', (e) => {
-        blockGamer.textContent = "← Move →";
-        /* Aún no se logro deshabilitar el botón */
-        blockGamer.disabled = true;
-        blockGamer.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
-        blockGamer.style.color = "white";
-        count = startGamer;
-        start = setInterval(moveBall, 40);
-
-        document.addEventListener('keydown', moveUser);
-    });
-});
-/**
  * Crea el bloque que será movido por el jugador.
  */
 const createGamer = (() => {
         blockGamer.classList.add('blockGamer');
-        blockGamer.textContent = "Click here";
-        blockGamer.style.backgroundColor = "var(--nav)";
-        blockGamer.style.left = startGamer[0]+'%';
-        blockGamer.style.bottom = startGamer[1]+'%';
+        mainCreateGamer();
+        blockGamer.addEventListener('click', selectGamer);
+        //selectGamer();
         marco.appendChild(blockGamer);
-        selectGamer(blockGamer);
 });
 
 
-createBlock();
-createGamer();
-createBall();
+createBlock(); //inicio
+createBall(); //inicio 
+createGamer(); //inicio
