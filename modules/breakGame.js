@@ -14,7 +14,6 @@ const blockGamer = document.createElement('button');
 const blockListCover = document.createElement('div');
 /* Contador de resultados al colisionar con los bloques*/
 let contResult = 0;
-
 /* Cambiar la dirección, iniciamos en 2*/
 let xDirection = 2;
 let yDirection = 2;
@@ -85,14 +84,13 @@ const moveUser = ((e) => {
             }
             break;
             case ('ArrowRight'):
-                if (count[0] < 100-31) {
+                if (count[0] < 100 - 31) {
                     count[0] +=2;
                     blockGamer.style.left = count[0] + "%";
                 }
             break;
     }
 });
-
 /**
  * Cambiamos la dirección de la esfera si choca con los border del marco
  */
@@ -114,10 +112,6 @@ const changeDirection = (() => {
         return;
     }
 });
-
-const mainCreateGamer = (() => {
-});
-
 const checkForCollision = (() => {
     for (let i=0; i< blocksAux.length; i++) {
         if ((startBallFlag[0] + 5 > blocksAux[i].bottomLeft[0] && startBallFlag[0] < blocksAux[i].bottomRigth[0])
@@ -140,7 +134,6 @@ const checkForCollision = (() => {
     && startBallFlag[0] <= count[0] + gameBlockWidth ) && (startBallFlag[1] >= count[1] && startBallFlag[1] <= count[1] + gameBlockHeight)) {
             changeDirection();
     }
-
     if (startBallFlag[0] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().width).toFixed(2) ) ||
         startBallFlag[1] >= 100 - ((100*49.9)/ (marco.getBoundingClientRect().height).toFixed(2) ) ||
         startBallFlag[0] <= 0) {
@@ -152,7 +145,6 @@ const checkForCollision = (() => {
         restartGameBreak();
     }
 });
-
 /** suma los ejes para mover la pelota */
 const moveBall = (() => {
     startBallFlag[0] += xDirection;
@@ -165,9 +157,7 @@ const axisBall = (() => {
     elementBall.style.left = startBallFlag[0]+"%";
     elementBall.style.bottom = startBallFlag[1]+"%";
 });
-
 /**
- * 
  * función necesaria para mover el bloque jugador de izq a derecha.
  */
 const selectGamer = (() => {
@@ -176,7 +166,6 @@ const selectGamer = (() => {
         blockGamer.disabled = true;
         blockGamer.style.backgroundColor = 'rgba(0, 0, 0, 0.76)';
         blockGamer.style.color = "white";
-        //count = startGamer;
         start = setInterval(moveBall, 40);
         document.addEventListener('keydown', moveUser);
 });
@@ -215,8 +204,7 @@ const createGamer = (() => {
     blockGamer.style.color = 'rgba(0, 0, 0, 0.4)';
     blockGamer.style.left = startGamer[0]+'%';
     blockGamer.style.bottom = startGamer[1]+'%';
-     blockGamer.addEventListener('click', selectGamer);
-    //selectGamer();
+    blockGamer.addEventListener('click', selectGamer);
     marco.appendChild(blockGamer);
 });
 
