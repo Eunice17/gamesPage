@@ -31,4 +31,9 @@ const drawSquaresMain = (() => {
     }
 });
 
+if (navigator.userAgent.match(/mobile/i)) {
+    console.log("Es mobile");
+}
+console.log(window.matchMedia("only screen and (max-width: 393px)").matches)
+
 drawSquaresMain();
