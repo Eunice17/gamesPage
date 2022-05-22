@@ -7,6 +7,7 @@ document.querySelector('.year').textContent = new Date().getFullYear();
 const navigate = document.querySelectorAll('.nav-games a');
 
 const gridComponent = document.querySelector('#grid-memory');
+const sectionsGame = document.querySelectorAll('.game');
 
 // Creamos tablero para el juego de memoria
 const createBoard = (()=> {
@@ -34,6 +35,8 @@ const funcionalidadNav = (() => {
     });
 });
 
+
+
 export const main = (() => {
     funcionalidadNav();
     memory.cardArray.sort(() => 0.5 - Math.random());
@@ -46,8 +49,28 @@ export const mainMole = (() => {
         showMole();
     });
 });
+const funcionObserver = entries => {
+    entries.forEach(obj => {
+        if (obj.isIntersecting) {
+            const itemActual = Array.from(navigate).find(item => item.dataset.url == obj.target.id )
+            itemActual.classList.add("active")
+            for (const iterator of navigate) {
+                if (iterator != itemActual) {
+                    iterator.classList.remove("active")
+                }
+            }
+        }
+    })
+}
+const observer = new IntersectionObserver(funcionObserver, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5
+})
+sectionsGame.forEach(section => observer.observe(section))
 
 /* Incio de memory game */
 main();
 /* Inicio de whac a mole */
 mainMole();
+
